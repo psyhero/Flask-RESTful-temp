@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="myform" action="">
+        <input type="email" id="email" placeholder="邮箱">
+        <input type="text" placeholder="验证码">
+        <button id="vertify">发送验证码</button>
+        <p class="messege"></p>
+        <input type="text" placeholder="用户名">
+        <input type="password" name="password" id="password" placeholder="密码">
+        <button>注册</button>
+    </form>
+</body>
+<script>
+    document.querySelector('#vertify').addEventListener(
+        'click',
+        async (event) => {
+            // event.preventDefault();
+            const email = document.querySelector('#email').value
+            if (!email) {
+                document.querySelector('#messege').textContent = '请输入邮箱地址'
+            }
+            try {
+                const res = await fetch(
+                    '/vertify',
+                    {
+                        method: 'post',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: email })
+                    }
+                )
+                const data = await res.json()
+                if (!data.success) {
+                    document.querySelector('#messege').textContent = '验证码已发送'
+                } else {
+                    document.querySelector('#messege').textContent = '验证码发送失败'
+                }
+            } catch (err) {
+                console.error('发送验证码出错', err);
+                document.querySelector('#messege').textContent = '验证码发送失败'
+            }
+
+        }
+    )
+</script>
+
+</html>

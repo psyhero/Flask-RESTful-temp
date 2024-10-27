@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>index page</h1>
+
+    <script>
+        async function get_data(params) {
+            try {
+                const res = await fetch('/url?id={{params}}')     //获取Response对象,默认GET请求
+                const data = await res.json()   //获取json数据
+            } catch (err) {     //捕获错误信息
+                console.log(err);
+            }
+        }
+
+        async function post_data(params) {
+            let obj = {
+                id: 1,
+                username: 'Alan'
+            }
+            const res = await fetch(
+                '/register?email={{params}}',
+                {
+                    method: 'post',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(obj)
+                }
+            )
+            const data = await res.json()
+        }
+
+    </script>
+</body>
+
+</html>

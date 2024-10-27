@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="myForm" method="post" action="/submit">
+        <label for="captcha">验证码:</label>
+        <input type="text" id="captcha" name="captcha">
+        <img id="captchaImage" src="/captcha" alt="验证码">
+        <button type="button" id="sendCaptcha">发送验证码</button>
+        <button type="submit">提交</button>
+    </form>
+
+</body>
+<script>
+    document.getElementById('sendCaptcha').addEventListener('click', function () {
+        // 动态生成验证码图片
+        var captchaImage = document.getElementById('captchaImage');
+        captchaImage.src = '/captcha?t=' + new Date().getTime();
+    });
+
+    document.getElementById('myForm').addEventListener('submit', function (event) {
+        // 防止重复提交
+        if (event.target.checkValidity()) {
+            event.preventDefault();
+            // 提交表单
+            this.submit();
+        }
+    });
+
+</script>
+
+</html>
