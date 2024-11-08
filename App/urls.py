@@ -1,5 +1,4 @@
 from .extentions import api
-from .apis import *
+from .apis import HomeResource
 
-
-api.add_resource(HelloResource,'/hello/')
+api.add_resource(HomeResource,'/','/home')

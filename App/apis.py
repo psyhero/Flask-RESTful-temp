@@ -1,15 +1,20 @@
 from flask import jsonify
-from flask_restful import Resource,fields,marshal_with,reqparse
-from .models import User
-from .extentions import cache
+from flask_restful import Resource,fields,marshal_with,reqparse,inputs
 
+from .models import User,User2
 
-class HelloResource(Resource):
+class HomeResource(Resource):
 
-    @cache.cached(timeout=60)
     def get(self):
+        user = User2.query.first()
 
-        pass
+        return jsonify({
+            'id' : user.id,
+            'name' : user.name,
+            'like' : user.like,
+            'hobby' : user.hobby,
+            'test' : user.test
+        })
 
     def post(self):
 
@@ -19,9 +24,9 @@ class HelloResource(Resource):
 ret_field = {
     'status':fields.Integer,
     'msg':fields.String,
-    'data2':fields.String(attribute='data'),     # 关联data的值
+    'data2':fields.String(attribute='data'),     # 关联函数返回值中data的值
     'like':fields.String(default='read'),
-    'url':fields.Url(endpoint=id,absolute=True)
+    'url':fields.Url(endpoint=id,absolute=True)     # 跳转链接、绝对路径
 }
 
 class UserResource(Resource):
@@ -42,6 +47,7 @@ class UserResource(Resource):
 
 parser = reqparse.RequestParser()
 parser.add_argument('name',type=str,required=True,help='name is required!')
+parser.add_argument('url',type=inputs.url,required=True,help='name is required!')
 
 
 class PersonResource(Resource):

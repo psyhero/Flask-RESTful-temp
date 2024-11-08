@@ -2,14 +2,12 @@ import os
 
 from flask import Flask
 
-import config
+from App import config
 from .extentions import init_exts
 from .urls import *
 
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 def create_app():
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     static_folder = os.path.join(BASE_DIR,'static')
     template_folder = os.path.join(BASE_DIR,'templates')
 
@@ -19,6 +17,5 @@ def create_app():
     app.config.from_object(config)
 
     init_exts(app=app)
-
     return app
 
